@@ -1,5 +1,6 @@
 export {
     wait,
+    waitAnimation,
     retry,
     debounce,
     debouncePromise

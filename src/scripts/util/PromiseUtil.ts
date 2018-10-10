@@ -4,6 +4,18 @@ export function wait(time: number) {
     });
 }
 
+export function waitAnimation(time?: number) {
+    return new Promise((resolve) => {
+        if (time) {
+            window.setTimeout(() => {
+                window.requestAnimationFrame(resolve);
+            }, time);
+        } else {
+            window.requestAnimationFrame(resolve);
+        }
+    });
+}
+
 export async function retry(time: number, callback: () => Promise<boolean>) {
     let done = false;
     do {
