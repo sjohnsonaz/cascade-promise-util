@@ -1,0 +1,50 @@
+{
+  "name": "@cascade/promise-util",
+  "version": "0.0.0",
+  "description": "A Promise utility",
+  "author": "Sean Johnson <sjohnson@sjohnsonaz.com>",
+  "contributors": [],
+  "homepage": "https://sjohnsonaz.github.io/cascade",
+  "license": "MIT",
+  "main": "dist/scripts/modules/PromiseUtil.js",
+  "typings": "dist/scripts/modules/PromiseUtil.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "rimraf ./dist && tsc --declaration",
+    "clean": "rimraf ./dist",
+    "test": "tsc && node src/mocha/NodeRunner.js",
+    "min": "webpack --config webpack.config.js --progress",
+    "dev": "webpack --config webpack.dev.config.js --progress",
+    "watch": "webpack --config webpack.dev.config.js --watch --progress",
+    "dev-local": "tsc --declaration --watch",
+    "mkdocs": "mkdocs build",
+    "mkdocs-serve": "mkdocs serve",
+    "mkdocs-deploy": "mkdocs gh-deploy",
+    "typedoc": "typedoc --out ./docs/apidocs/ ./src/scripts/cascade-promise-util/",
+    "open": "opn src/mocha/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sjohnsonaz/cascade-promise-util.git"
+  },
+  "bugs": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "4.1.6",
+    "@types/mocha": "5.2.5",
+    "chai": "4.2.0",
+    "jsdom": "11.11.0",
+    "mocha": "5.2.0",
+    "opn-cli": "3.1.0",
+    "rimraf": "2.6.2",
+    "ts-loader": "5.2.1",
+    "typedoc": "0.12.0",
+    "typescript": "3.1.1",
+    "webpack": "4.20.2",
+    "webpack-cli": "3.1.2"
+  },
+  "keywords": [
+    "cascade",
+    "promise"
+  ]
+}
