@@ -1,6 +1,6 @@
 {
   "name": "@cascade/promise-util",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Promise utility",
   "author": "Sean Johnson <sjohnson@sjohnsonaz.com>",
   "contributors": [],
