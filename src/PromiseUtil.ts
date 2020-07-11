@@ -42,12 +42,12 @@ export function debounce<T, U, V>(func: ExtendedFunction2<T, U, V>, wait: number
 export function debounce<T, U, V, W>(func: ExtendedFunction3<T, U, V, W>, wait: number, immediate?: boolean): (arg0: T, arg1: U, arg2: V) => void;
 export function debounce<T, U, V, W, X>(func: ExtendedFunction4<T, U, V, W, X>, wait: number, immediate?: boolean): (arg0: T, arg1: U, arg2: V, arg3: W) => void;
 export function debounce(func: Function, wait: number, immediate?: boolean): Function {
-    var timeout: number;
+    var timeout: number | undefined;
     var self = {};
     return function () {
         var args = arguments;
         var later = () => {
-            timeout = null;
+            timeout = undefined;
             if (!immediate) {
                 func.apply(self, args);
             }
@@ -61,45 +61,17 @@ export function debounce(func: Function, wait: number, immediate?: boolean): Fun
     };
 }
 
+type CleanPromise<T> = T extends Promise<infer U> ? Promise<U> : Promise<T>;
+type PrmoiseFunction<T extends(...args: any) => any> = (
+    ...args: Parameters<T>
+) => CleanPromise<ReturnType<T>>;
 
-type ExtendedPromiseFunction0<T> = (...args: any[]) => Promise<T>;
-type ExtendedPromiseFunction1<T, U> = (arg0: T) => Promise<U>;
-type ExtendedPromiseFunction2<T, U, V> = (arg0: T, arg1: U) => Promise<V>;
-type ExtendedPromiseFunction3<T, U, V, W> = (arg0: T, arg1: U, arg2: V) => Promise<W>;
-type ExtendedPromiseFunction4<T, U, V, W, X> = (arg0: T, arg1: U, arg2: V, arg3: W) => Promise<X>;
-
-type ExtendedPromise0<T> = () => Promise<T>;
-type ExtendedPromise1<T, U> = (arg0: T) => Promise<U>;
-type ExtendedPromise2<T, U, V> = (arg0: T, arg1: U) => Promise<V>;
-type ExtendedPromise3<T, U, V, W> = (arg0: T, arg1: U, arg2: V) => Promise<W>;
-type ExtendedPromise4<T, U, V, W, X> = (arg0: T, arg1: U, arg2: V, arg3: W) => Promise<X>;
-
-/**
- * 
- * @param func
- * @param wait
- * @param thisArg
- * 
- * Takes in a function (A)
- * Returns a function (B)
- * Function (B) returns a Promise
- * Subsequent calls to Function (B) return same Promise
- * Promise resolves after wait time
- * Promise executes last call to function (A)
- * After wait time, Function (B) returns a new Promise
- * 
- */
-export function debouncePromise<T>(func: ExtendedPromiseFunction0<T>, wait: number, thisArg?: any): ExtendedPromise0<T>;
-export function debouncePromise<T, U>(func: ExtendedPromiseFunction1<T, U>, wait: number, thisArg?: any): ExtendedPromise1<T, U>;
-export function debouncePromise<T, U, V>(func: ExtendedPromiseFunction2<T, U, V>, wait: number, thisArg?: any): ExtendedPromise2<T, U, V>;
-export function debouncePromise<T, U, V, W>(func: ExtendedPromiseFunction3<T, U, V, W>, wait: number, thisArg?: any): ExtendedPromise3<T, U, V, W>;
-export function debouncePromise<T, U, V, W, X>(func: ExtendedPromiseFunction4<T, U, V, W, X>, wait: number, thisArg?: any): ExtendedPromise4<T, U, V, W, X>;
-export function debouncePromise(func: (...args: any[]) => any, wait: number, thisArg?: any): (...args: any[]) => Promise<any> {
+export function debouncePromise<T extends (...args: any)=> any>(func: T, wait: number, thisArg?: any): PrmoiseFunction<T> {
     var self = thisArg || {};
 
     var args: any;
-    var timeout: number;
-    var promise: Promise<any>;
+    var timeout: number | undefined;
+    var promise: Promise<any> | undefined;
     var resolveExternal: any;
 
     return function () {
@@ -128,6 +100,6 @@ export function debouncePromise(func: (...args: any[]) => any, wait: number, thi
                 throw 'No Promise or Timeout for debouncePromise';
             }
         }
-        return promise
-    }
+        return promise;
+    } as any;
 }

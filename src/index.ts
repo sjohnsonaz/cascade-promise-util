@@ -4,4 +4,4 @@ export {
     retry,
     debounce,
     debouncePromise
-} from '../util/PromiseUtil';
+} from './PromiseUtil';
